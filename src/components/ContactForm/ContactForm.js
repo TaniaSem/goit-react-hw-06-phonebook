@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
 import { FormStyled, Label, Input, SubmitBtn } from './ContactForm.styled';
 
-export const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
+export const ContactForm = () => {
+  const contacts = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
+  const [contactName, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const handleChange = e => {
@@ -16,7 +20,14 @@ export const ContactForm = ({ onSubmit }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ name, number });
+    if (
+      contacts
+        .map(({ name }) => name.toLocaleLowerCase())
+        .some(name => name === contactName.toLocaleLowerCase())
+    ) {
+      return alert(`${contactName} is already in contacts`);
+    }
+    dispatch(addContact(contactName, number));
     setName('');
     setNumber('');
   };
@@ -28,7 +39,7 @@ export const ContactForm = ({ onSubmit }) => {
         <Input
           type="text"
           name="name"
-          value={name}
+          value={contactName}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           onChange={handleChange}
