@@ -4,7 +4,7 @@ import { addContact } from 'redux/contactsSlice';
 import { FormStyled, Label, Input, SubmitBtn } from './ContactForm.styled';
 
 export const ContactForm = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.stateRedux.contacts);
   const dispatch = useDispatch();
   const [contactName, setName] = useState('');
   const [number, setNumber] = useState('');

@@ -4,8 +4,8 @@ import { deleteContact } from 'redux/contactsSlice';
 import { List } from './ContactList.styled';
 
 export const ContactList = () => {
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(state => state.stateRedux.contacts);
+  const filter = useSelector(state => state.stateRedux.filter);
   const dispatch = useDispatch();
   console.log(filter);
 
